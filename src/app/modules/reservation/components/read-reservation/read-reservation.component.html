@@ -1,0 +1,95 @@
+<main class="flex flex-col gap-4 p-4">
+    <mat-card class="w-full">
+        <mat-accordion>
+            <mat-expansion-panel [expanded]="true" (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        Filtros de consulta
+                    </mat-panel-title>
+                    <mat-panel-description>
+                    </mat-panel-description>
+                </mat-expansion-panel-header>
+                <form [formGroup]="oFormGroup" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
+
+                    <mat-form-field color="primary">
+                        <mat-label>Selecciona el rango de fecha</mat-label>
+                        <mat-date-range-input [formGroup]="oFormGroup.controls.rangeDate" [rangePicker]="picker">
+                            <input matStartDate formControlName="start" placeholder="Start date" [readonly]="true">
+                            <input matEndDate formControlName="end" placeholder="End date" [readonly]="true">
+                        </mat-date-range-input>
+                        <mat-hint>día/mes/año – día/mes/año</mat-hint>
+                        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-date-range-picker touchUi #picker></mat-date-range-picker>
+                    </mat-form-field>
+
+                    <mat-form-field class="w-full">
+                        <mat-label>Tipo de documento</mat-label>
+                        <mat-select required formControlName="customer">
+                            <mat-option value=""></mat-option>
+                            <!-- @for (typeDocument of typeDocuments(); track typeDocument) {
+                    <mat-option [value]="typeDocument">{{
+                      typeDocument.name
+                      }}</mat-option>
+                    } -->
+                        </mat-select>
+                    </mat-form-field>
+
+                    <mat-form-field class="w-full">
+                        <mat-label>Tipo de servicio</mat-label>
+                        <mat-select required formControlName="service">
+                            <mat-option value=""></mat-option>
+                            <!-- @for (typeService of typeServices(); track typeService) {
+                    <mat-option [value]="typeService.id">{{
+                      typeService.name
+                      }}</mat-option>
+                    } -->
+                        </mat-select>
+                    </mat-form-field>
+
+                    <button mat-fab color="primary">
+                        <mat-icon class="w-full ml-4">search</mat-icon>
+                    </button>
+                </form>
+
+            </mat-expansion-panel>
+        </mat-accordion>
+    </mat-card>
+    <mat-card class="w-full">
+        <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+            <!-- Position Column -->
+            <ng-container matColumnDef="position">
+                <th mat-header-cell *matHeaderCellDef> No. </th>
+                <td mat-cell *matCellDef="let element"> {{element.position}} </td>
+            </ng-container>
+
+            <!-- Name Column -->
+            <ng-container matColumnDef="name">
+                <th mat-header-cell *matHeaderCellDef> Name </th>
+                <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+            </ng-container>
+
+            <!-- Weight Column -->
+            <ng-container matColumnDef="weight">
+                <th mat-header-cell *matHeaderCellDef> Weight </th>
+                <td mat-cell *matCellDef="let element"> {{element.weight}} </td>
+            </ng-container>
+
+            <!-- Symbol Column -->
+            <ng-container matColumnDef="symbol">
+                <th mat-header-cell *matHeaderCellDef> Symbol </th>
+                <td mat-cell *matCellDef="let element"> {{element.symbol}} </td>
+            </ng-container>
+            <!-- actions Column -->
+            <ng-container matColumnDef="actions">
+                <th mat-header-cell *matHeaderCellDef> Actions </th>
+                <td mat-cell *matCellDef="let element"> {{element.actions}} </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+        <mat-paginator #matPaginator [length]="100" [pageSize]="10" [pageSizeOptions]="[5, 10, 25, 100]"
+            aria-label="Select page">
+        </mat-paginator>
+    </mat-card>
+</main>

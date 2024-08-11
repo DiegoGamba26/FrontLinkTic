@@ -1,0 +1,26 @@
+<app-header class="mb-4"></app-header>
+<main class="flex justify-center w-full">
+  <div class="max-w-[1750px] w-full">
+    <mat-tab-group
+    color="primary"
+    [selectedIndex]="this.type()"
+    (selectedTabChange)="changeTab($event)"
+      animationDuration="0ms"
+      #myTabGroup>
+      <mat-tab label="Lista de reservaciones" >
+        @if (this.type() === 0) {
+          @defer(when this.type() === 0) {
+            <app-read-reservation />
+          }
+        }
+      </mat-tab>
+      <mat-tab label="Creación reservaciones" >
+        @if (this.type() === 1) {
+          @defer {
+            <app-create-reservation />
+          }
+        }
+      </mat-tab>
+    </mat-tab-group>
+  </div>
+</main>

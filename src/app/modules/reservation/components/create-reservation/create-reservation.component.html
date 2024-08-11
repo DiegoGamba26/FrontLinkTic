@@ -1,0 +1,37 @@
+<main>
+    <mat-card class="w-full">
+        <form class="flex flex-col gap-4 p-4">
+            <mat-form-field class="w-full">
+                <mat-label>Choose a date</mat-label>
+                <input matInput [matDatepicker]="picker">
+                <mat-hint>MM/DD/YYYY</mat-hint>
+                <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+
+            <mat-form-field class="w-full">
+                <mat-label>Tipo de documento</mat-label>
+                <mat-select required formControlName="tipoDocumento">
+                    <mat-option value=""></mat-option>
+                    <!-- @for (typeDocument of typeDocuments(); track typeDocument) {
+            <mat-option [value]="typeDocument">{{
+              typeDocument.name
+              }}</mat-option>
+            } -->
+                </mat-select>
+            </mat-form-field>
+
+            <mat-form-field class="w-full">
+                <mat-label>Tipo de servicio</mat-label>
+                <mat-select required formControlName="tipoServicio">
+                    <mat-option value=""></mat-option>
+                    <!-- @for (typeService of typeServices(); track typeService) {
+            <mat-option [value]="typeService.id">{{
+              typeService.name
+              }}</mat-option>
+            } -->
+                </mat-select>
+            </mat-form-field>
+        </form>
+    </mat-card>
+</main>
