@@ -20,6 +20,8 @@ import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { IGetCustomer, IGetServices } from '../../interfaces';
 import { forkJoin, Subject, takeUntil, tap } from 'rxjs';
 import { ReservationService } from '../../services/reservation.service';
+import { HttpParams } from '@angular/common/http';
+import { isNotEmpty } from '../../../../core/utils/isNotEmpty.function';
 
 @Component({
   selector: 'app-read-reservation',
@@ -69,7 +71,23 @@ export class ReadReservationComponent {
 constructor(){
     afterNextRender(() => {
       this.getDataOptions();
+      this.getData();
     });
+  }
+
+  private getData(){
+    this._alertsS.alertLoading();
+    let params = new HttpParams();
+    if(isNotEmpty(this.oFormGroup.controls.rangeDate.value.start)) params.set('startDate', String(this.oFormGroup.controls.rangeDate.value.start));
+    if(isNotEmpty(this.oFormGroup.controls.rangeDate.value.end)) params.set('endDate', String(this.oFormGroup.controls.rangeDate.value.end));
+    if(isNotEmpty(this.oFormGroup.controls.customer.value)) params.set('customerId', String(this.oFormGroup.controls.customer.value));
+    if(isNotEmpty(this.oFormGroup.controls.service.value)) params.set('customerId', String(this.oFormGroup.controls.service.value));
+    this._reservationSvc.getReservations(params).subscribe({
+      next: ()=>{
+        this._alertsS.closeAlert();
+      },
+      error: ()=>{this._alertsS.closeAlert();}
+    })
   }
   
   private getDataOptions(){
