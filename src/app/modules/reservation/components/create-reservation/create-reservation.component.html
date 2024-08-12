@@ -15,7 +15,7 @@
                 <mat-select required formControlName="customer">
                     <mat-option value=""></mat-option>
                     @for (customer of customerOpt(); track customer) {
-                        <mat-option [value]="customer">{{ customer.serviceName}}</mat-option>
+                        <mat-option [value]="customer.customerId">{{customer.firstName + ' ' + customer.lastName}}</mat-option>
                     }
                 </mat-select>
             </mat-form-field>
@@ -25,7 +25,7 @@
                 <mat-select required formControlName="service">
                     <mat-option value=""></mat-option>
                     @for (service of servicesOpt(); track service) {
-                        <mat-option [value]="service.customerId">{{service.firstName + ' ' + service.lastName}}</mat-option>
+                        <mat-option [value]="service.serviceId"> {{ service.serviceName}}</mat-option>
                     }
                 </mat-select>
             </mat-form-field>
