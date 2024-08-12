@@ -23,7 +23,7 @@ export class LoginService {
    * @returns {IResLogin} 
    */
   login(data: ILogin): Observable<IResLogin>{
-    const url = `${this.urlBack}`;
+    const url = `${this.urlBack}/api/Auth/login`;
     return this._http.post<IResLogin>(url, data, {context: skipNoToken()});
   }
   //#endregion
