@@ -1,9 +1,9 @@
 export interface IGetCustomer{
-    serviceId: number;
-    serviceName: string;
-    description: string;
-    price: number;
-    duration: number;
+    customerId: number;
+    firstName: string;
+    lastName: string;
+    email: string;
+    phone: string;
     createdAt: string;
     updatedAt: string;
 }
