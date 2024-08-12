@@ -4,7 +4,7 @@ import { environment } from '../../../../environments/environment';
 import { Observable } from 'rxjs';
 import { IGetCustomer, IGetServices } from '../interfaces';
 import { IBasicDbResponse } from '../../../shared/models';
-import { IGetReservation, IPostReservation } from '../interfaces/reservation.interface';
+import { IGetReservation, IPostReservation, Reservation } from '../interfaces/reservation.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +18,7 @@ export class ReservationService {
 
   /**
    * Método https
-   * 
+   *
    * Método que trae todos los clientes de DB
    * @returns {IBasicDbResponse<IGetCustomer>}
    */
@@ -26,10 +26,21 @@ export class ReservationService {
     const url = `${this.urlBack}/api/Reservations/getCustomers`;
     return this._http.get<IBasicDbResponse<IGetCustomer[]>>(url);
   }
+  /**
+   * Método https
+   *
+   * Método que trae la reservacion por id
+   * @param {HttpParams} param
+   * @returns {IGetReservation} reservación
+   */
+  getReservationById(param: HttpParams): Observable<Reservation> {
+    const url = `${this.urlBack}/api/Reservations/reservationsById`;
+    return this._http.get<Reservation>(url, {params: param});
+  }
 
   /**
    * Método https
-   * 
+   *
    * Método que trae todos los servicios de DB
    * @returns {IBasicDbResponse<IGetCustomer>}
    */
@@ -40,7 +51,7 @@ export class ReservationService {
 
   /**
    * Método https
-   * 
+   *
    * Método que trae todos los servicios de DB
    * @param { HttpParams } param
    * @returns {IBasicDbResponse<IGetCustomer>} return IGetCustomer
@@ -60,6 +71,30 @@ export class ReservationService {
   postReservation(data: IPostReservation) {
     const url = `${this.urlBack}/api/Reservations/createReservation`;
     return this._http.post(url, data);
+  }
+  /**
+   * Método https
+   *
+   * Edición reservacion
+   * @param {string} idReservation
+   * @param {IPostReservation} data
+   * @returns {Observable} return
+   */
+  putReservation(idReservation: string, data: IPostReservation) {
+    const url = `${this.urlBack}/api/Reservations/updateReservation/${idReservation}`;
+    return this._http.put(url, data);
+  }
+
+  /**
+   * Método https
+   *
+   * Delete reservatión
+   * @param {number} idReservation
+   * @returns
+   */
+  deleteReservation(idReservation: number){
+    const url = `${this.urlBack}/api/Reservations/deleteReservation/${idReservation}`;
+    return this._http.delete(url);
   }
   //#endregion
 }

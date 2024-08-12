@@ -73,7 +73,6 @@ export class ReservationsComponent {
     if (this.idUserEdit() !== 0) params.id = String(this.idUserEdit());
     this.route.navigate(['/reservation/home'], {
       queryParams: params,
-      queryParamsHandling: 'merge'
     });
   }
 }

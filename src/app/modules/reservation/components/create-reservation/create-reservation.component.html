@@ -13,7 +13,7 @@
             <mat-form-field class="w-full">
                 <mat-label>Cliente</mat-label>
                 <mat-select required formControlName="customer">
-                    <mat-option value=""></mat-option>
+                    <mat-option value="">Seleccione</mat-option>
                     @for (customer of customerOpt(); track customer) {
                         <mat-option [value]="customer.customerId">{{customer.firstName + ' ' + customer.lastName}}</mat-option>
                     }
@@ -23,14 +23,17 @@
             <mat-form-field class="w-full">
                 <mat-label>Tipo de servicio</mat-label>
                 <mat-select required formControlName="service">
-                    <mat-option value=""></mat-option>
+                    <mat-option value="">Seleccione</mat-option>
                     @for (service of servicesOpt(); track service) {
                         <mat-option [value]="service.serviceId"> {{ service.serviceName}}</mat-option>
                     }
                 </mat-select>
             </mat-form-field>
-
-            <button mat-flat-button [disabled]="!oFormGroup.valid" (click)="createReservation()" color="primary">Primary</button>
+            @if(idReservationEdit() ===''){
+              <button mat-flat-button [disabled]="!oFormGroup.valid" (click)="createReservation()" color="primary">Guardar</button>
+            }@else {
+              <button mat-flat-button [disabled]="!oFormGroup.valid" (click)="updateReservation()" color="primary">Actualizar</button>
+            }
         </form>
     </mat-card>
 </main>
