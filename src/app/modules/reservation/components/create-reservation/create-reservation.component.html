@@ -1,10 +1,10 @@
 <main>
     <mat-card class="w-full">
         <form [formGroup]="oFormGroup" class="flex flex-col gap-4 p-4">
-            
+
             <mat-form-field class="w-full">
                 <mat-label>Fecha</mat-label>
-                <input matInput [matDatepicker]="picker">
+                <input matInput [matDatepicker]="picker" formControlName="date">
                 <mat-hint>MM/DD/YYYY</mat-hint>
                 <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
                 <mat-datepicker #picker></mat-datepicker>
@@ -30,7 +30,7 @@
                 </mat-select>
             </mat-form-field>
 
-            <button mat-flat-button color="primary">Primary</button>
+            <button mat-flat-button [disabled]="!oFormGroup.valid" (click)="createReservation()" color="primary">Primary</button>
         </form>
     </mat-card>
 </main>

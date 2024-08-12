@@ -34,3 +34,10 @@ export interface Service {
     createdAt: string;
     updatedAt: string;
 }
+
+export interface IPostReservation{
+  customerId: number;
+  serviceId: number;
+  reservationDate: string;
+  status: string;
+}
