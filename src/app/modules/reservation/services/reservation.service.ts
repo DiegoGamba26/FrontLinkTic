@@ -21,9 +21,9 @@ export class ReservationService {
    * Método que trae todos los clientes de DB
    * @returns {IBasicDbResponse<IGetCustomer>}
    */
-  getCustomer(): Observable<IBasicDbResponse<IGetCustomer>>{
+  getCustomer(): Observable<IBasicDbResponse<IGetCustomer[]>>{
     const url = 'api/Reservations/getCustomers';
-    return this._http.get<IBasicDbResponse<IGetCustomer>>(url);
+    return this._http.get<IBasicDbResponse<IGetCustomer[]>>(url);
   }
 
   /**
@@ -32,9 +32,9 @@ export class ReservationService {
    * Método que trae todos los servicios de DB
    * @returns {IBasicDbResponse<IGetCustomer>}
    */
-  getService(): Observable<IBasicDbResponse<IGetServices>>{
+  getService(): Observable<IBasicDbResponse<IGetServices[]>>{
     const url = 'api/Reservations/getServices';
-    return this._http.get<IBasicDbResponse<IGetServices>>(url);
+    return this._http.get<IBasicDbResponse<IGetServices[]>>(url);
   }
 
   //#endregion
