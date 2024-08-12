@@ -1,4 +1,4 @@
-import { Component, inject, viewChild } from '@angular/core';
+import { afterNextRender, Component, inject, signal, viewChild } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { MatButtonModule } from '@angular/material/button';
@@ -17,6 +17,9 @@ import {MatNativeDateModule} from '@angular/material/core';
 import { IGetReservation } from '../../interfaces/reservation.interface';
 import { AlertsService } from '../../../../shared/services/alerts.service';
 import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { IGetCustomer, IGetServices } from '../../interfaces';
+import { forkJoin, Subject, takeUntil, tap } from 'rxjs';
+import { ReservationService } from '../../services/reservation.service';
 
 @Component({
   selector: 'app-read-reservation',
@@ -43,11 +46,15 @@ import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
 export class ReadReservationComponent {
   protected paginator = viewChild.required<MatPaginator>('matPaginator');
   protected sort = viewChild.required<MatSort>('matSort');
+  private readonly _reservationSvc = inject(ReservationService);
   private readonly _alertsS = inject(AlertsService);
   private readonly iRouter = inject(Router);
   private readonly _fb = inject(FormBuilder);
-
+  
+  protected servicesOpt = signal<IGetServices[]>([]);
+  protected customerOpt = signal<IGetCustomer[]>([]);
   protected panelOpenState = true;
+  private destroy$ = new Subject<void>();
   protected dataSource = new MatTableDataSource<IGetReservation>();
   protected displayedColumns: string[] = ['position', 'name', 'weight', 'symbol', 'actions'];
   protected oFormGroup = this._fb.group({
@@ -58,4 +65,28 @@ export class ReadReservationComponent {
     customer: ['', []],
     service: ['', []],
   });
+
+constructor(){
+    afterNextRender(() => {
+      this.getDataOptions();
+    });
+  }
+  
+  private getDataOptions(){
+    forkJoin({
+      customer: this._reservationSvc.getCustomer(),
+      services: this._reservationSvc.getService(),
+    }).pipe(
+      tap(({ customer, services }) => {
+        this.customerOpt.set(customer.data);
+        this.servicesOpt.set(services.data);
+      }),
+      takeUntil(this.destroy$)
+    ).subscribe();
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
 }

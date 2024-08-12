@@ -23,26 +23,22 @@
                     </mat-form-field>
 
                     <mat-form-field class="w-full">
-                        <mat-label>Tipo de documento</mat-label>
+                        <mat-label>Cliente</mat-label>
                         <mat-select required formControlName="customer">
                             <mat-option value=""></mat-option>
-                            <!-- @for (typeDocument of typeDocuments(); track typeDocument) {
-                    <mat-option [value]="typeDocument">{{
-                      typeDocument.name
-                      }}</mat-option>
-                    } -->
+                            @for (customer of customerOpt(); track customer) {
+                                <mat-option [value]="customer">{{ customer.serviceName}}</mat-option>
+                            }
                         </mat-select>
                     </mat-form-field>
-
+        
                     <mat-form-field class="w-full">
                         <mat-label>Tipo de servicio</mat-label>
                         <mat-select required formControlName="service">
                             <mat-option value=""></mat-option>
-                            <!-- @for (typeService of typeServices(); track typeService) {
-                    <mat-option [value]="typeService.id">{{
-                      typeService.name
-                      }}</mat-option>
-                    } -->
+                            @for (service of servicesOpt(); track service) {
+                                <mat-option [value]="service.customerId">{{service.firstName + ' ' + service.lastName}}</mat-option>
+                            }
                         </mat-select>
                     </mat-form-field>
 

@@ -4,6 +4,7 @@ import { environment } from '../../../../environments/environment';
 import { Observable } from 'rxjs';
 import { IGetCustomer, IGetServices } from '../interfaces';
 import { IBasicDbResponse } from '../../../shared/models';
+import { IGetReservation } from '../interfaces/reservation.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -22,7 +23,7 @@ export class ReservationService {
    * @returns {IBasicDbResponse<IGetCustomer>}
    */
   getCustomer(): Observable<IBasicDbResponse<IGetCustomer[]>>{
-    const url = 'api/Reservations/getCustomers';
+    const url = `${this.urlBack}/api/Reservations/getCustomers`;
     return this._http.get<IBasicDbResponse<IGetCustomer[]>>(url);
   }
 
@@ -33,8 +34,19 @@ export class ReservationService {
    * @returns {IBasicDbResponse<IGetCustomer>}
    */
   getService(): Observable<IBasicDbResponse<IGetServices[]>>{
-    const url = 'api/Reservations/getServices';
+    const url = `${this.urlBack}/api/Reservations/getServices`;
     return this._http.get<IBasicDbResponse<IGetServices[]>>(url);
+  }
+
+  /**
+   * Método https
+   * 
+   * Método que trae todos los servicios de DB
+   * @returns {IBasicDbResponse<IGetCustomer>}
+   */
+  getReservations(): Observable<IBasicDbResponse<IGetReservation[]>>{
+    const url = `${this.urlBack}/api/Reservations/getReservations`;
+    return this._http.get<IBasicDbResponse<IGetReservation[]>>(url);
   }
 
   //#endregion

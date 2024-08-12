@@ -9,6 +9,8 @@ import {MatNativeDateModule} from '@angular/material/core';
 import { IGetCustomer, IGetServices } from '../../interfaces';
 import { forkJoin, Subject, takeUntil, tap } from 'rxjs';
 import { ReservationService } from '../../services/reservation.service';
+import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-create-reservation',
@@ -20,15 +22,24 @@ import { ReservationService } from '../../services/reservation.service';
     MatDatepickerModule,
     MatSelectModule,
     MatNativeDateModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MatButtonModule
   ],
   templateUrl: './create-reservation.component.html',
   styleUrl: './create-reservation.component.scss'
 })
 export class CreateReservationComponent implements OnDestroy{
   private readonly _reservationSvc = inject(ReservationService);
+  private readonly _fb = inject(FormBuilder);
 
   protected servicesOpt = signal<IGetServices[]>([]);
   protected customerOpt = signal<IGetCustomer[]>([]);
+  protected oFormGroup = this._fb.group({
+    date:  ['', []],
+    customer: ['', []],
+    service: ['', []],
+  });
   private destroy$ = new Subject<void>();
 
   constructor(){
