@@ -31,7 +31,7 @@
                 }
             </mat-form-field>
             <div class="flex justify-center">
-                <button class="rounded-full w-40" (click)="login()" mat-flat-button color="primary">
+                <button class="rounded-full w-40" [disabled]="!oFormGroup.valid" (click)="login()" mat-flat-button color="primary">
                     Iniciar sesión
                 </button>
             </div>

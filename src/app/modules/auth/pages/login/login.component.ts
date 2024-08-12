@@ -10,6 +10,9 @@ import { MatIconModule } from '@angular/material/icon';
 import { LoginService } from '../../services/login.service';
 import { ValidationFormsService } from '../../../../shared/services/validation-forms.service';
 import { AlertsService } from '../../../../shared/services/alerts.service';
+import { ILogin } from '../../interfaces/login.interface';
+import { SessionStorageService } from '../../../../shared/services/session-storage.service';
+import { environment } from '../../../../../environments/environment';
 
 @Component({
   selector: 'app-login',
@@ -31,6 +34,7 @@ export class LoginComponent {
   private readonly _alertsSvc = inject(AlertsService);
   private readonly _authLoginSvc = inject(LoginService);
   private readonly _validationFormsS = inject(ValidationFormsService);
+  private readonly _sessionStorageSvc = inject(SessionStorageService);
   private readonly router = inject(Router);
 
   protected hidePassword = true;
@@ -45,6 +49,17 @@ export class LoginComponent {
   }
 
   protected login() {
-    console.log();
+    const data: ILogin = {
+      userEmail: String(this.oFormGroup.controls.email.value),
+      password: String(this.oFormGroup.controls.password.value),
+    }
+    this._authLoginSvc.login(data).subscribe({
+      next: (oRes)=>{
+        this._sessionStorageSvc.setItem(environment.AppTokenKey, oRes.token);
+        this.router.navigateByUrl('/reservation/home');
+      },error: ()=>{
+
+      }
+    })
   }
 }
